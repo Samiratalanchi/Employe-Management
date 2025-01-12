@@ -1,12 +1,19 @@
 import "../index.css"
+import {createBrowserRouter, RouterProvider} from "react-router-dom"
+import Login from "../pages/Login/Login.tsx"
 
 function App() {
 
+  const router = createBrowserRouter([
+    {
+      path: "/login",
+      element: <Login />,
+    }
+  ])
+
   return (
     <>
-      <h1 className="text-3xl font-bold underline">
-      Hello world!
-      </h1>
+      <RouterProvider router={router} />
     </>
   )
 }
