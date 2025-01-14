@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Alert = ({ message, error, title }: { message?: string, error?: boolean, errorMessage?: string }) => {
+const Alert = ({ message, error, title }: { message?: string, error?: boolean, title?: string }) => {
     return (
         error ? <div className="rounded-md bg-red-50 p-4">
             <div className="flex">
