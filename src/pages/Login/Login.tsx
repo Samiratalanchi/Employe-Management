@@ -1,7 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import logo from "../../images/logo/logo.png"
+import users from "../../constant/users.json"
 
 const Login = () => {
+    const [userName, setUserName] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
+    const submitForm = () => {
+        const userExist = users.filter((user) => (user.username === userName || user.email === userName) && user.password === password)
+        if (userExist.length > 0) {
+            alert("Login successful")
+        } else 
+        {
+            alert("doesnt exist")
+        }
+    }
+
     return (
         <div className="flex  flex-col justify-center items-center h-full py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -19,18 +33,19 @@ const Login = () => {
                     <form className="space-y-6" action="#" method="POST">
                         <div>
                             <label
-                                htmlFor="email"
+                                htmlFor="Username"
                                 className="block text-sm font-medium leading-6 text-gray-900"
                             >
-                                Email
+                                Username
                             </label>
                             <div className="mt-2">
                                 <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
+                                    id="Username"
+                                    name="Username"
+                                    type="text"
+                                    autoComplete="current-password"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={(e) => setUserName(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -48,12 +63,14 @@ const Login = () => {
                                     type="password"
                                     autoComplete="current-password"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-red-500 sm:text-sm sm:leading-6"
+                                    onChange={(e) => setPassword(e.target.value)}
                                     />
                             </div>
                         </div>
                         <div>
                             <button
                                 type="submit"
+                                onClick={submitForm}
                                 className="flex w-full justify-center rounded-md bg-[#0099CC] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Sign in
