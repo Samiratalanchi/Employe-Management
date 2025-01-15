@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import LoginHolder from "../../components/common/login";
+import LoginHolder from "../../components/login/loginHolder";
 
 
 const Login = () => {

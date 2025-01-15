@@ -1,5 +1,5 @@
 import React from "react";
-import InputForm from "../../InputForm";
+import InputForm from "../../common/InputForm";
 
 interface ILoginFormProps {
     setUserName: (e: any) => void,
