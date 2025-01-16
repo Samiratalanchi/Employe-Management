@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom"
 import sideBar from "../../constant/sidebar"
 import logo from "../../images/logo/logo.png"
+import { IoMdMenu } from "react-icons/io";
 
-const DesktopLayout = () => {
+const DesktopLayout = ({buttonClick, activePage}: {buttonClick: () => any,activePage: string}) => {
     return (
         <>
             <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col font-semibold">
@@ -19,7 +20,7 @@ const DesktopLayout = () => {
                             <li>
                                 <ul role="list" className="-mx-2 space-y-1">
                                     { sideBar.map((item:any,key) => (
-                                        <Link className="bg-gray-900 text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                        <Link className={`${item.path.toLowerCase() === activePage ? "bg-gray-800" : "bg-gray-900"} text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold`}
                                               to={item.path}
                                               key={key}
                                         >
@@ -34,18 +35,8 @@ const DesktopLayout = () => {
                 </div>
             </div>
             <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
-                <button type="button" className="-m-2.5 p-2.5 text-gray-400 lg:hidden">
-                    <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        strokeWidth={0}
-                        viewBox="0 0 512 512"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path d="M64 384h384v-42.666H64V384zm0-106.666h384v-42.667H64v42.667zM64 128v42.665h384V128H64z" />
-                    </svg>
+                <button onClick={buttonClick} type="button" className="-m-2.5 p-2.5 text-gray-400 lg:hidden">
+                    <IoMdMenu />
                 </button>
                 <div className="flex-1 text-sm font-semibold leading-6 text-white">
                     Dashboard

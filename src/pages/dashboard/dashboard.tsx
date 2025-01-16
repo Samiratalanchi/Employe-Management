@@ -39,7 +39,6 @@ const Dashboard = () => {
                     </div>
                 </main>
             </DashboardLayout>
-            
         </>
 
     )
