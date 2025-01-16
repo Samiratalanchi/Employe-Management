@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom"
 
 
 import DesktopLayout from "./desktopLayout"
+import MobileLayout from "./mobileLayout";
 
 
 const DashboardLayout = ({ children }:{children: React.ReactNode}) => {
@@ -20,6 +21,7 @@ const DashboardLayout = ({ children }:{children: React.ReactNode}) => {
         <>
             <DesktopLayout buttonClick={openSideBar} activePage={activePage}/>
             {children}
+            <MobileLayout isOpen={isOpen} closeSideBar={openSideBar} activePage={activePage}/>
         </>
         
     )
