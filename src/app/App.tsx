@@ -2,6 +2,7 @@ import "../index.css"
 import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import Login from "../pages/login/Login.tsx"
 import Dashboard from "../pages/dashboard/dashboard.tsx"
+import { UserProvider } from "../context/User.context.tsx"
 
 function App() {
 
@@ -18,7 +19,10 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
+      
     </>
   )
 }

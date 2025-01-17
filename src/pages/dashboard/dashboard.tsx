@@ -2,9 +2,10 @@
 import DashboardCard from "../../components/dashboard/dashboardCard/dashboardCard"
 import DashboardLayout from "../../components/layout/dashboardLayout"
 import { LuUser } from "react-icons/lu";
-import users from "../../constant/users.json";
+import { useUsers } from "../../context/User.context";
 
 const Dashboard = () => {
+    const {users} = useUsers();
     return (
         <>
             <DashboardLayout>
