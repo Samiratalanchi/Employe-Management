@@ -1,4 +1,4 @@
 const tableCol = [
-    "Name", "Title", "Email", "Role", "Status", "Action"
+    "Name", "Title", "Email", "Status", "Action"
 ]
 export default tableCol
