@@ -11,6 +11,7 @@ const Users = () => {
     const [allChecked, setAllChecked] = useState<boolean>(false)
     const [sortByName, setSortByName] = useState<any>('');
     const [sortByTitle, setSortByTitle] = useState<any>('');
+    const [sortByStatus, setSortByStatus] = useState<any>('');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -33,17 +34,28 @@ const Users = () => {
         setUsers(updatedUsers);
     };
 
-    const handleSortChange = (key: 'name' | 'title', value: string) => {
+    const handleSortChange = (key: 'name' | 'title' | 'status', value: string) => {
         if (key === 'name') {
             setSortByName(value);
             setSortByTitle('');
-        } else {
+            setSortByStatus('');
+        } else if (key === 'title') {
             setSortByTitle(value);
             setSortByName('');
+            setSortByStatus('');
+        } else if (key === 'status'){
+            setSortByStatus(value);
+            setSortByName('');
+            setSortByTitle('');
         }
     };
 
-    const compareUsers = (a: IUserInterface, b: IUserInterface, key: 'username' | 'position', order: string) => {
+    const compareUsers = (a: IUserInterface, b: IUserInterface, key: 'username' | 'position' | 'status', order: string) => {
+        if (key === 'status') {
+            return order === 'asc'
+                ? Number(b.isActive) - Number(a.isActive)
+                : Number(a.isActive) - Number(b.isActive);
+        }
         return order === 'asc' ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
     };
 
@@ -51,6 +63,7 @@ const Users = () => {
         return [...currentItems].sort((a, b) => {
             if (sortByName) return compareUsers(a, b, 'username', sortByName);
             if (sortByTitle) return compareUsers(a, b, 'position', sortByTitle);
+            if (sortByStatus) return compareUsers(a, b, 'status', sortByStatus);
             return 0;
         });
     };
@@ -97,8 +110,9 @@ const Users = () => {
                         <SortingOptions
                                 sortByName={sortByName}
                                 sortByTitle={sortByTitle}
+                                sortByStatus={sortByStatus}    
                                 onSortChange={handleSortChange}
-                            />
+                        />
                             <UserTable
                                 users={getSortedUsers()}
                                 allChecked={allChecked}

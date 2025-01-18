@@ -1,10 +1,11 @@
 interface ISortingOptionsProps  {
     sortByName: string;
     sortByTitle: string;
-    onSortChange: (key: 'name' | 'title', value: string) => void;
+    sortByStatus: string;
+    onSortChange: (key: 'name' | 'title' | 'status', value: string) => void;
 };
 
-const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByTitle, onSortChange }) => {
+const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByTitle, sortByStatus, onSortChange }) => {
     return (
         <div className='grid grid-cols-3 mb-3 w-1/2 gap-3'>
             <div>
@@ -16,9 +17,9 @@ const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByTitl
                     name="name"
                     className="outline-none mt-1 block w-full  rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm"
                 >
-                    <option value={'default'}>Select Option</option>
-                    <option value="name-asc">Name (A to Z)</option>
-                    <option value="name-desc">Name (Z to A)</option>
+                    <option value={'name'}>Select Option</option>
+                    <option value="asc">Name (A to Z)</option>
+                    <option value="des">Name (Z to A)</option>
                 </select>
             </div>
             <div>
@@ -30,9 +31,23 @@ const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByTitl
                     name="title"
                     className="outline-none mt-1 block w-full  rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm"
                 >
-                    <option value=''>Select Option</option>
+                    <option value='title'>Select Option</option>
                     <option value="asc">Title (A to Z)</option>
                     <option value="desc">Title (Z to A)</option>
+                </select>
+            </div>
+            <div>
+                <label htmlFor="sortByStatus" className="block text-sm font-medium leading-6 text-gray-900">Sort By Status</label>
+                <select
+                    value={sortByStatus}
+                    onChange={(e) => onSortChange('status', e.target.value)}
+                    id="sortByStatus"
+                    name="status"
+                    className="outline-none mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                >
+                    <option value='status'>Select Option</option>
+                    <option value="asc">Active</option>
+                    <option value="desc">Not Active</option>
                 </select>
             </div>
         </div>
