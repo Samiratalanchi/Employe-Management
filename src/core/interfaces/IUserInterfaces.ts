@@ -1,5 +1,5 @@
 export interface IUSerInterface {
-    id?: number
+    id?: any
     username : string
     email: string
     isActive?: boolean
