@@ -7,6 +7,7 @@ import UserTable from '../../components/users/userList/userList'
 import Pagination from "../../components/pagination/pagination";
 import UserJson from "../../constant/users.json"
 import { Link } from "react-router-dom";
+import { getItem, setItem } from "../../core/storage/storage";
 
 const Users = () => {
 
@@ -32,6 +33,16 @@ const Users = () => {
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
     }, [users, currentPage, itemsPerPage]);
+
+    useEffect(() => {
+        const userExist = getItem('users')
+        if (userExist) {
+            setUsers(JSON.parse(userExist))
+        }
+        else {
+            setUsers(usersWithCheckbox)
+        }
+    }, [])
 
     const toggleAllCheckboxes = () => {
         const updatedUsers = users.map((user: any) => ({ ...user, isChecked: !allChecked }));
@@ -104,6 +115,7 @@ const Users = () => {
 
     const deleteUserHandler = (id: number) => {
         const newUser: IUserInterface[] = users.filter(user => user.id !== id);
+        setItem("users", JSON.stringify(newUser));
         setUsers(newUser)
     }
 
