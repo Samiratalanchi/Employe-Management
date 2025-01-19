@@ -102,6 +102,11 @@ const Users = () => {
         }
     }
 
+    const deleteUserHandler = (id: number) => {
+        const newUser: IUserInterface[] = users.filter(user => user.id !== id);
+        setUsers(newUser)
+    }
+
 
     return (
         <DashboardLayout>
@@ -142,6 +147,7 @@ const Users = () => {
                             allChecked={allChecked}
                             onCheckAll={toggleAllCheckboxes}
                             onCheck={toggleCheckbox}
+                            deleteUser={deleteUserHandler}
                         />
                         </div>
                         <Pagination
