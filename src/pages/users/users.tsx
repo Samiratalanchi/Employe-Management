@@ -21,6 +21,7 @@ const Users = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const totalPages = Math.ceil(users.length / itemsPerPage);
     const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
+    const [searchQuery, setSearchQuery] = useState<string>("")
 
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
@@ -54,7 +55,6 @@ const Users = () => {
         setUsers(sortedUsers);
     };
     const sortByStatusHandler = (input: string) => {
-        console.log(input);
     
         setSortByStatus(input);
         const sortedUsers = [...users];
@@ -82,6 +82,10 @@ const Users = () => {
         });
         setUsers(sortedUsers);
     };
+
+    const searchInTableHandler = () => {
+
+    }
 
 
     return (
@@ -116,6 +120,7 @@ const Users = () => {
                                 setSortByStatus={sortByStatusHandler}
                                 setSortByGender={setSortByGenderHandler}
                                 sortByGender={sortByGender}
+                                onSearchChange={setSearchQuery}
                         />
                         <UserTable
                             users={currentUsers}
