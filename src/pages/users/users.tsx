@@ -4,6 +4,7 @@ import DashboardLayout from "../../components/layout/dashboardLayout"
 import { useUsers } from "../../context/User.context";
 import SortingOptions from '../../components/users/sortingOption'
 import UserTable from '../../components/users/userList/userList'
+import Pagination from "../../components/pagination/pagination";
 
 const Users = () => {
     const { users: initialUsers } = useUsers();
@@ -16,7 +17,6 @@ const Users = () => {
     const [itemsPerPage] = useState(10);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(users.length / itemsPerPage);
 
     useEffect(() => {
@@ -52,20 +52,21 @@ const Users = () => {
 
     const compareUsers = (a: IUserInterface, b: IUserInterface, key: 'username' | 'position' | 'status', order: string) => {
         if (key === 'status') {
-            return order === 'asc'
-                ? Number(b.isActive) - Number(a.isActive)
-                : Number(a.isActive) - Number(b.isActive);
-        }
+            const valA = a.isActive ? 1 : 0;
+            const valB = b.isActive ? 1 : 0;
+        return order === 'asc' ? valB - valA : valA - valB;
+    }
         return order === 'asc' ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
     };
 
     const getSortedUsers = () => {
-        return [...currentItems].sort((a, b) => {
+        const sortedUsers = [...users].sort((a, b) => {
             if (sortByName) return compareUsers(a, b, 'username', sortByName);
             if (sortByTitle) return compareUsers(a, b, 'position', sortByTitle);
             if (sortByStatus) return compareUsers(a, b, 'status', sortByStatus);
             return 0;
         });
+        return sortedUsers.slice(indexOfFirstItem, indexOfLastItem)
     };
 
     const renderPagination = () => {
@@ -113,28 +114,18 @@ const Users = () => {
                                 sortByStatus={sortByStatus}    
                                 onSortChange={handleSortChange}
                         />
-                            <UserTable
-                                users={getSortedUsers()}
-                                allChecked={allChecked}
-                                onCheckAll={toggleAllCheckboxes}
-                                onCheck={toggleCheckbox}
-                            />
+                        <UserTable
+                            users={getSortedUsers()}
+                            allChecked={allChecked}
+                            onCheckAll={toggleAllCheckboxes}
+                            onCheck={toggleCheckbox}
+                        />
                         </div>
-                        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-                            <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                                <div>
-                                    <p className="text-sm text-gray-700">
-                                        Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to <span className="font-medium">{indexOfLastItem}</span> of{' '}
-                                        <span className="font-medium">{users.length}</span> results
-                                    </p>
-                                </div>
-                                <div>
-                                    <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                                        {renderPagination()}
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
+                        <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                setCurrentPage={setCurrentPage}
+                        />
                     </div>
                 </div>
             </main>

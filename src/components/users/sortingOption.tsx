@@ -1,3 +1,5 @@
+import SelectInput from "../common/selectInput";
+
 interface ISortingOptionsProps  {
     sortByName: string;
     sortByTitle: string;
@@ -6,50 +8,48 @@ interface ISortingOptionsProps  {
 };
 
 const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByTitle, sortByStatus, onSortChange }) => {
+    const sortByNameOptions = [{
+        title: "Name (A to Z)", value: "asc"
+    },
+    {
+        title: "Name (Z to A)", value: "desc"
+    }]
+    const sortByTitleOptions = [{
+        title: "Title (A to Z)", value: "asc"
+    },
+    {
+        title: "Title (Z to A)", value: "desc"
+    }]
+    const sortByStatusOptions = [{
+        title: "Status (Active First)", value: "asc"
+    },
+    {
+        title: "Status (Not Active First)", value: "desc"
+    }]
+    
     return (
         <div className='grid grid-cols-3 mb-3 w-1/2 gap-3'>
-            <div>
-                <label htmlFor="Sort By Name" className="block text-sm font-medium leading-6 text-gray-900">Sort By Name</label>
-                <select
-                    value={sortByName}
-                    onChange={(e) => onSortChange('name', e.target.value)}
-                    id="sortByName"
-                    name="name"
-                    className="outline-none mt-1 block w-full  rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm"
-                >
-                    <option value={'name'}>Select Option</option>
-                    <option value="asc">Name (A to Z)</option>
-                    <option value="des">Name (Z to A)</option>
-                </select>
-            </div>
-            <div>
-                <label htmlFor="Sort By Title" className="block text-sm font-medium leading-6 text-gray-900">Sort By Title</label>
-                <select
-                    value={sortByTitle}
-                    onChange={(e) => onSortChange('title', e.target.value)}
-                    id="sortByTitle"
-                    name="title"
-                    className="outline-none mt-1 block w-full  rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm"
-                >
-                    <option value='title'>Select Option</option>
-                    <option value="asc">Title (A to Z)</option>
-                    <option value="desc">Title (Z to A)</option>
-                </select>
-            </div>
-            <div>
-                <label htmlFor="sortByStatus" className="block text-sm font-medium leading-6 text-gray-900">Sort By Status</label>
-                <select
-                    value={sortByStatus}
-                    onChange={(e) => onSortChange('status', e.target.value)}
-                    id="sortByStatus"
-                    name="status"
-                    className="outline-none mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                    <option value='status'>Select Option</option>
-                    <option value="asc">Active</option>
-                    <option value="desc">Not Active</option>
-                </select>
-            </div>
+            <SelectInput
+                value={sortByName}
+                onChange={(key, value) => onSortChange('name', value)}
+                title={"Sort By Name"}
+                options={sortByNameOptions}
+                id={"sortByName"}
+            />
+            <SelectInput
+                value={sortByTitle}
+                onChange={(key, value) => onSortChange('title', value)}
+                title={"Sort By Title"}
+                options={sortByTitleOptions}
+                id={"sortByTitle"}
+            />
+            <SelectInput
+                value={sortByStatus}
+                onChange={(key, value) => onSortChange('status', value)}
+                title={"Sort By Status"}
+                options={sortByStatusOptions}
+                id={"sortByStatus"}
+            />
         </div>
     )
 }
