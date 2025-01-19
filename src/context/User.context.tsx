@@ -9,7 +9,7 @@ const UserContext = createContext<{
     setUsers: React.Dispatch<React.SetStateAction<IUSerInterface[]>>
 }>({users: [], setUsers: () => { },});
 
-export const UserProvider = ({ children } : { children: React.ReactNode}) => {
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const userWithCheckBox = UserJson.map((user: IUSerInterface) => ({ ...user, isChecked: false}))
 
     const [users, setUsers] = useState<IUSerInterface[]>(userWithCheckBox)

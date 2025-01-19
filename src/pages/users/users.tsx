@@ -7,83 +7,82 @@ import UserTable from '../../components/users/userList/userList'
 import Pagination from "../../components/pagination/pagination";
 
 const Users = () => {
-    const { users: initialUsers } = useUsers();
-    const [users, setUsers] = useState<IUserInterface[]>([]);
+
+    const { users, setUsers } = useUsers()
+
     const [allChecked, setAllChecked] = useState<boolean>(false)
     const [sortByName, setSortByName] = useState<any>('');
-    const [sortByTitle, setSortByTitle] = useState<any>('');
+    const [sortByGender, setSortByGender] = useState<string>('');
+    const [sortByPosition, setSortByPosition] = useState<string>('');
     const [sortByStatus, setSortByStatus] = useState<any>('');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const totalPages = Math.ceil(users.length / itemsPerPage);
+    const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
 
     useEffect(() => {
-        setUsers(initialUsers);
-    }, [initialUsers]);
+        setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
+    }, [users, currentPage, itemsPerPage]);
 
     const toggleAllCheckboxes = () => {
-        const updatedUsers = users.map(user => ({ ...user, isChecked: !allChecked }));
+        const updatedUsers = users.map((user: any) => ({ ...user, isChecked: !allChecked }));
         setUsers(updatedUsers);
         setAllChecked(!allChecked);
     };
 
     const toggleCheckbox = (id: number) => {
-        const updatedUsers = users.map(user => user.id === id ? { ...user, isChecked: !user.isChecked } : user);
+        const updatedUsers = users.map((user: any) => user.id === id ? { ...user, isChecked: !user.isChecked } : user);
         setUsers(updatedUsers);
     };
 
-    const handleSortChange = (key: 'name' | 'title' | 'status', value: string) => {
-        if (key === 'name') {
-            setSortByName(value);
-            setSortByTitle('');
-            setSortByStatus('');
-        } else if (key === 'title') {
-            setSortByTitle(value);
-            setSortByName('');
-            setSortByStatus('');
-        } else if (key === 'status'){
-            setSortByStatus(value);
-            setSortByName('');
-            setSortByTitle('');
-        }
+    const sortByNameHandler = (input: string) => {
+        setSortByName(input)
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) =>
+            input === "asc" ? a.username.localeCompare(b.username) : b.username.localeCompare(a.username)
+        );
+        setUsers(sortedUsers);
     };
-
-    const compareUsers = (a: IUserInterface, b: IUserInterface, key: 'username' | 'position' | 'status', order: string) => {
-        if (key === 'status') {
-            const valA = a.isActive ? 1 : 0;
-            const valB = b.isActive ? 1 : 0;
-        return order === 'asc' ? valB - valA : valA - valB;
-    }
-        return order === 'asc' ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
+    const sortByPositionHandler = (input: string) => {
+        setSortByPosition(input)
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) =>
+            input === "asc" ? a.position.localeCompare(b.position) : b.position.localeCompare(a.position)
+        );
+        setUsers(sortedUsers);
     };
-
-    const getSortedUsers = () => {
-        const sortedUsers = [...users].sort((a, b) => {
-            if (sortByName) return compareUsers(a, b, 'username', sortByName);
-            if (sortByTitle) return compareUsers(a, b, 'position', sortByTitle);
-            if (sortByStatus) return compareUsers(a, b, 'status', sortByStatus);
-            return 0;
+    const sortByStatusHandler = (input: string) => {
+        console.log(input);
+    
+        setSortByStatus(input);
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) => {
+            if (input === "active") {
+                return (a.isActive === b.isActive) ? 0 : a.isActive ? -1 : 1;
+            } else {
+                return (a.isActive === b.isActive) ? 0 : a.isActive ? 1 : -1;
+            }
         });
-        return sortedUsers.slice(indexOfFirstItem, indexOfLastItem)
+        setUsers(sortedUsers);
+    };
+    
+    
+    const setSortByGenderHandler = (input: string) => {
+        console.log(input)
+        setSortByGender(input);
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) => {
+            if (input === "male") {
+                return (a.personalInfo.gender === b.personalInfo.gender) ? 0 : a.personalInfo.gender ? -1 : 1;
+            } else {
+                return (a.personalInfo.gender === b.personalInfo.gender) ? 0 : a.personalInfo.gender ? 1 : -1;
+            }
+        });
+        setUsers(sortedUsers);
     };
 
-    const renderPagination = () => {
-        const pageNumbers = [];
-        for (let i = 1; i <= totalPages; i++) {
-            pageNumbers.push(i);
-        }
-        return pageNumbers.map(number => (
-            <button
-                key={number}
-                onClick={() => setCurrentPage(number)}
-                className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${currentPage === number ? 'bg-[#0099CC] text-white' : ''}`}
-            >
-                {number}
-            </button>
-        ));
-    };
 
     return (
         <DashboardLayout>
@@ -110,21 +109,25 @@ const Users = () => {
                         <div className="mt-8 flow-root">
                         <SortingOptions
                                 sortByName={sortByName}
-                                sortByTitle={sortByTitle}
+                                sortByPosition={sortByPosition}
                                 sortByStatus={sortByStatus}    
-                                onSortChange={handleSortChange}
+                                setSortByName={sortByNameHandler}
+                                setSortByPosition={sortByPositionHandler}
+                                setSortByStatus={sortByStatusHandler}
+                                setSortByGender={setSortByGenderHandler}
+                                sortByGender={sortByGender}
                         />
                         <UserTable
-                            users={getSortedUsers()}
+                            users={currentUsers}
                             allChecked={allChecked}
                             onCheckAll={toggleAllCheckboxes}
                             onCheck={toggleCheckbox}
                         />
                         </div>
                         <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                setCurrentPage={setCurrentPage}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            setCurrentPage={setCurrentPage}
                         />
                     </div>
                 </div>
