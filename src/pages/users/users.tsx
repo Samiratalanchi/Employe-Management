@@ -5,8 +5,14 @@ import { useUsers } from "../../context/User.context";
 import SortingOptions from '../../components/users/sortingOption'
 import UserTable from '../../components/users/userList/userList'
 import Pagination from "../../components/pagination/pagination";
+import UserJson from "../../constant/users.json"
 
 const Users = () => {
+
+    const usersWithCheckbox = UserJson.map((user: IUserInterface) => ({
+        ...user,
+        isChecked: false
+    }))
 
     const { users, setUsers } = useUsers()
 
@@ -21,7 +27,6 @@ const Users = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const totalPages = Math.ceil(users.length / itemsPerPage);
     const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
-    const [searchQuery, setSearchQuery] = useState<string>("")
 
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
@@ -83,8 +88,17 @@ const Users = () => {
         setUsers(sortedUsers);
     };
 
-    const searchInTableHandler = () => {
-
+    const searchInTableHandler = (value: string) => {
+        if (!value) {
+            setUsers(usersWithCheckbox);
+        } else {
+            const filteredUsers = users.filter(user =>
+                user.username.toLowerCase().includes(value.toLowerCase()) ||
+                user.position.toLowerCase().includes(value.toLowerCase()) ||
+                user.email.toLowerCase().includes(value.toLowerCase())
+            );
+            setUsers(filteredUsers);
+        }
     }
 
 
@@ -120,7 +134,7 @@ const Users = () => {
                                 setSortByStatus={sortByStatusHandler}
                                 setSortByGender={setSortByGenderHandler}
                                 sortByGender={sortByGender}
-                                onSearchChange={setSearchQuery}
+                                onSearchChange={searchInTableHandler}
                         />
                         <UserTable
                             users={currentUsers}
