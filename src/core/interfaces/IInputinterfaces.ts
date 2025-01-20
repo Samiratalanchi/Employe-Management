@@ -2,7 +2,7 @@ interface IInputInterfaces{
     label:string,
     labelClassName?:string,
     type:string,
-    className:string
+    className?:string
     onChange?:(e:any)=> any;
 }
 

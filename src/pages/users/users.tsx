@@ -8,6 +8,8 @@ import Pagination from "../../components/pagination/pagination";
 import UserJson from "../../constant/users.json"
 import { Link } from "react-router-dom";
 import { getItem, setItem } from "../../core/storage/storage";
+import Modal from "../../components/modal/modal";
+import DeleteAlert from "../../components/common/alert/deleteAlert";
 
 const Users = () => {
 
@@ -29,6 +31,9 @@ const Users = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const totalPages = Math.ceil(users.length / itemsPerPage);
     const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
+    const [deleteModel, setDeleteModel] = useState<boolean>(false)
+    const [selectedUser, setSelectedUser] = useState<number>(0)
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
@@ -113,10 +118,20 @@ const Users = () => {
         }
     }
 
-    const deleteUserHandler = (id: number) => {
-        const newUser: IUserInterface[] = users.filter(user => user.id !== id);
+    const deleteUserHandler = () => {
+        const newUser: IUserInterface[] = users.filter(user => user.id !== selectedUser);
         setItem("users", JSON.stringify(newUser));
         setUsers(newUser)
+        setShowAlert(true);
+        setDeleteModel(false);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 3000);
+    }
+
+    const selectUserToDelete = (id: number) => {
+        setSelectedUser(id)
+        setDeleteModel(true)
     }
 
 
@@ -143,30 +158,34 @@ const Users = () => {
                             </div>
                         </div>
                         <div className="mt-8 flow-root">
-                        <SortingOptions
-                                sortByName={sortByName}
-                                sortByPosition={sortByPosition}
-                                sortByStatus={sortByStatus}    
-                                setSortByName={sortByNameHandler}
-                                setSortByPosition={sortByPositionHandler}
-                                setSortByStatus={sortByStatusHandler}
-                                setSortByGender={setSortByGenderHandler}
-                                sortByGender={sortByGender}
-                                onSearchChange={searchInTableHandler}
-                        />
-                        <UserTable
-                            users={currentUsers}
-                            allChecked={allChecked}
-                            onCheckAll={toggleAllCheckboxes}
-                            onCheck={toggleCheckbox}
-                            deleteUser={deleteUserHandler}
-                        />
-                        </div>
-                        <Pagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            setCurrentPage={setCurrentPage}
-                        />
+                            {showAlert && (
+                                <DeleteAlert message="User deleted successfully" />
+                            )}
+                            <SortingOptions
+                                    sortByName={sortByName}
+                                    sortByPosition={sortByPosition}
+                                    sortByStatus={sortByStatus}    
+                                    setSortByName={sortByNameHandler}
+                                    setSortByPosition={sortByPositionHandler}
+                                    setSortByStatus={sortByStatusHandler}
+                                    setSortByGender={setSortByGenderHandler}
+                                    sortByGender={sortByGender}
+                                    onSearchChange={searchInTableHandler}
+                            />
+                            <UserTable
+                                users={currentUsers}
+                                allChecked={allChecked}
+                                onCheckAll={toggleAllCheckboxes}
+                                onCheck={toggleCheckbox}
+                                deleteUser={selectUserToDelete}
+                            />
+                            </div>
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                setCurrentPage={setCurrentPage}
+                            />
+                            {deleteModel && <Modal deleteUser={deleteUserHandler} cancel={() => setDeleteModel(false)} />}
                     </div>
                 </div>
             </main>
