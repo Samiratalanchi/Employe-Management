@@ -134,6 +134,11 @@ const Users = () => {
         setDeleteModel(true)
     }
 
+    const resetDataHandler = ()=>{
+        setUsers(usersWithCheckbox)
+        setItem("users", JSON.stringify(usersWithCheckbox))
+    }
+
 
     return (
         <DashboardLayout>
@@ -148,13 +153,16 @@ const Users = () => {
                                     email and role.
                                 </p>
                             </div>
-                            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none flex space-x-3">
                                 <Link 
                                     to={'/createuser'}
                                     className="block rounded-md bg-[#0099CC] px-3 py-2 text-center text-sm font-semibold text-white shadow-sm"
                                 >
                                     Add user
                                 </Link>
+                                <button className="block rounded-md bg-yellow-500 hover:bg-yellow-400 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   " onClick={resetDataHandler}>
+                                    Reset Data
+                                </button>
                             </div>
                         </div>
                         <div className="mt-8 flow-root">
