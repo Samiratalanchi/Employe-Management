@@ -25,6 +25,7 @@ const Users = () => {
     const [sortByGender, setSortByGender] = useState<string>('');
     const [sortByPosition, setSortByPosition] = useState<string>('');
     const [sortByStatus, setSortByStatus] = useState<any>('');
+    const [sortByAge, setSortByAge] = useState<any>(null)
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -105,6 +106,22 @@ const Users = () => {
         setUsers(sortedUsers);
     };
 
+    const setSortByAgeHandler = (input: string) => {
+        setSortByAge(input);
+        const sortedUsers = [...users];
+        sortedUsers.sort((a, b) => {
+            const ageA = a.personalInfo?.age || 0;
+            const ageB = b.personalInfo?.age || 0;
+    
+            if (input === "asc") {
+                return ageA - ageB;
+            } else {
+                return ageB - ageA;
+            }
+        });
+        setUsers(sortedUsers);
+    };
+
     const searchInTableHandler = (value: string) => {
         if (!value) {
             setUsers(usersWithCheckbox);
@@ -134,7 +151,7 @@ const Users = () => {
         setDeleteModel(true)
     }
 
-    const resetDataHandler = ()=>{
+    const resetDataHandler = () => {
         setUsers(usersWithCheckbox)
         setItem("users", JSON.stringify(usersWithCheckbox))
     }
@@ -179,6 +196,8 @@ const Users = () => {
                                     setSortByGender={setSortByGenderHandler}
                                     sortByGender={sortByGender}
                                     onSearchChange={searchInTableHandler}
+                                    sortByAge={sortByAge}
+                                    setSortByAge={setSortByAgeHandler}
                             />
                             <UserTable
                                 users={currentUsers}

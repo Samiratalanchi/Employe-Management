@@ -1,5 +1,4 @@
 import SelectInput from "../common/selectInput";
-import IInputInterfaces from "../../core/interfaces/IInputinterfaces";
 import InputForm from "../common/InputForm";
 
 interface ISortingOptionsProps  {
@@ -11,10 +10,12 @@ interface ISortingOptionsProps  {
     setSortByStatus: any,
     setSortByGender: any,
     sortByGender: string,
-    onSearchChange: any
+    onSearchChange: any,
+    sortByAge: string,
+    setSortByAge: any
 };
 
-const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByPosition, sortByStatus, setSortByName, setSortByPosition, setSortByStatus, setSortByGender, sortByGender, onSearchChange }) => {
+const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByPosition, sortByStatus, setSortByName, setSortByPosition, setSortByStatus, setSortByGender, sortByGender, onSearchChange, setSortByAge, sortByAge }) => {
     const sortByNameOptions = [{
         title: "Name (A to Z)", value: "asc"
     },
@@ -39,9 +40,15 @@ const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByPosi
     {
         title: "Not Active To Active", value: "notActive"
     }]
+    const sortByAgeOptions = [{
+        title: "Age (Asc to Desc)", value: "asc"
+    },
+    {
+        title: "Age (Desc to Asc)", value: "desc"
+    }]
     
     return (
-        <div className='grid grid-cols-4 mb-3 w-1/2 gap-3'>
+        <div className='grid grid-cols-5 mb-3 gap-3'>
             <SelectInput 
             value={sortByName} 
             onChange={(e) => setSortByName(e)} 
@@ -71,6 +78,13 @@ const SortingOptions: React.FC<ISortingOptionsProps> = ({ sortByName, sortByPosi
             title={"Sort By Gender"} 
             options={sortByGenderOptions} 
             id={"sortByGender"} 
+            />
+            <SelectInput
+                value={sortByAge}
+                onChange={(e) => setSortByAge(e)}
+                title={"Sort By Age"}
+                options={sortByAgeOptions}
+                id={"sortByAge"}
             />
             <div className="col-span-2">
                 <InputForm onChange={(e) => onSearchChange(e.target.value)} label={'Search'} type={'search'} className={'px-2'} />
