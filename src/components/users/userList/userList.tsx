@@ -25,7 +25,7 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                     <th
                                     key={index}
                                     scope="col"
-                                    className="min-w-[12rem] px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                    className="min-w-[8rem] px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                     >
                                     {item}
                                     </th>
@@ -54,7 +54,10 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     {user.personalInfo.gender ? "🙎🏻‍♂️Male" : "🙎🏻‍♀️Female"}
-                                </td>
+                                    </td>
+                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    {user.personalInfo.age}
+                                    </td>
                                     <td className="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
                                         <div className="flex items-center justify-end gap-x-2 sm:justify-start">
                                             {user.isActive ?
@@ -75,12 +78,12 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                         </div>
                                     </td>
                                     <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3 space-x-3">
-                                        <a
-                                            href="#"
-                                            className="rounded bg-indigo-600 text-white px-2 py-1 text-md hover:text-white hover:bg-indigo-500"
+                                        <button
+                                            type="button"
+                                            className="rounded bg-indigo-600 text-white px-2 py-1 font-semibold text-md hover:text-white hover:bg-indigo-500"
                                         >
                                             Edit
-                                        </a>
+                                        </button>
                                         <button
                                             type="button"
                                             onClick={() => deleteUser(user.id)}
