@@ -5,7 +5,7 @@ export interface IUSerInterface {
     isActive?: boolean
     position: string
     isChecked?: boolean
-    password: string
+    password?: string
     personalInfo: IPersonalInfo
 }
 
