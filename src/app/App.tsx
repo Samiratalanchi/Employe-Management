@@ -5,6 +5,7 @@ import Dashboard from "../pages/dashboard/dashboard.tsx"
 import { UserProvider } from "../context/User.context.tsx"
 import Users from "../pages/users/users.tsx"
 import CreateUser from "../pages/createUser/CreateUser.tsx"
+import EditUser from "../pages/editUser/editUser.tsx"
 
 function App() {
 
@@ -28,6 +29,10 @@ function App() {
     {
       path: "/createuser",
       element: <CreateUser />
+    },
+    {
+      path: "/edituser/:id",
+      element: <EditUser />
     }
   ])
 

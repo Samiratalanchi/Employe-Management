@@ -3,13 +3,15 @@ import IUserInterface from "../../core/interfaces/IUserInterfaces"
 import DashboardLayout from "../../components/layout/dashboardLayout"
 import { useUsers } from "../../context/User.context";
 import SortingOptions from '../../components/users/sortingOption'
-import UserTable from '../../components/users/userList/userList'
+import UserList from '../../components/users/userList/userList'
 import Pagination from "../../components/pagination/pagination";
 import UserJson from "../../constant/users.json"
 import { Link } from "react-router-dom";
 import { setItem } from "../../core/storage/storage";
 import Modal from "../../components/modal/modal";
 import DeleteAlert from "../../components/common/alert/deleteAlert";
+import SelectInput from "../../components/common/selectInput";
+import Button from "../../components/common/button";
 
 const Users = () => {
 
@@ -40,6 +42,15 @@ const Users = () => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
     }, [users, currentPage, itemsPerPage]);
 
+    const actionOptions = [{
+        title: "Delete User", value: "del"
+    },
+    {
+        title: "Deactive User", value: "dea"
+    },
+    {
+        title: "Active User", value: "act"
+    }]
 
     const toggleAllCheckboxes = () => {
         const updatedUsers = users.map((user: any) => ({ ...user, isChecked: !allChecked }));
@@ -168,12 +179,13 @@ const Users = () => {
                                 >
                                     Add user
                                 </Link>
-                                <button className="block rounded-md bg-yellow-500 hover:bg-yellow-400 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm   " onClick={resetDataHandler}>
+                                <Button className="bg-yellow-500 hover:bg-yellow-400" onClick={resetDataHandler}>
                                     Reset Data
-                                </button>
+                                </Button>
                             </div>
                         </div>
                         <div className="mt-8 flow-root">
+                            <h2>Filter</h2>
                             {showAlert && (
                                 <DeleteAlert message="User deleted successfully" />
                             )}
@@ -190,7 +202,20 @@ const Users = () => {
                                     sortByAge={sortByAge}
                                     setSortByAge={setSortByAgeHandler}
                             />
-                            <UserTable
+                            <div >
+                                <h2 className='mb-3'>Action</h2>
+                                <div className='grid grid-cols-3 justify-center items-center'>
+                                    <div>
+                                        <SelectInput className="mb-3" onChange={function (value: any) {
+                                            throw new Error('Function not implemented.')
+                                        }} title={'User Actions'} options={actionOptions} />
+                                    </div>
+                                    <div>
+                                        <Button className=" bg-yellow-500 hover:bg-yellow-400 text-xs mt-5 ml-3"> Submit Action</Button>
+                                    </div>
+                                </div>
+                            </div>
+                            <UserList
                                 users={currentUsers}
                                 allChecked={allChecked}
                                 onCheckAll={toggleAllCheckboxes}

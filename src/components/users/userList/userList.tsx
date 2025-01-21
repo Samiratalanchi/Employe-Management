@@ -4,6 +4,7 @@ import IUserInterface from '../../../core/interfaces/IUserInterfaces';
 import tableCol from '../../../constant/tableCol'
 
 import UserTableProps from '../../../core/types/UserTable.type';
+import { Link } from 'react-router-dom';
 
 const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onCheck, deleteUser }) => {
     return(
@@ -43,9 +44,11 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                             onChange={() => onCheck(user.id)}
                                         />
                                     </td>
-                                    <td className="whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-900">
-                                        {user.username}
-                                    </td>
+                                    <Link to={`/edituser/${user.id}`}>
+                                        <td className=" whitespace-nowrap py-4 p-3 text-sm font-medium text-gray-900">
+                                            {user.username}
+                                        </td>
+                                    </Link>
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                         {user.position}
                                     </td>
@@ -78,12 +81,12 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                         </div>
                                     </td>
                                     <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3 space-x-3">
-                                        <button
-                                            type="button"
-                                            className="rounded bg-indigo-600 text-white px-2 py-1 font-semibold text-md hover:text-white hover:bg-indigo-500"
+                                        <Link
+                                            to={`/edituser/${user.id}`}
+                                            className="rounded bg-[#0099CC] text-white px-2 py-1 text-md hover:text-white"
                                         >
                                             Edit
-                                        </button>
+                                        </Link>
                                         <button
                                             type="button"
                                             onClick={() => deleteUser(user.id)}
