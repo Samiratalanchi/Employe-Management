@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { setItem } from '../../core/storage/storage'
 import { useUsers } from '../../context/User.context'
 import { useParams, useNavigate } from 'react-router-dom';

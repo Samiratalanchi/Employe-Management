@@ -35,8 +35,9 @@ const Users = () => {
     const totalPages = Math.ceil(users.length / itemsPerPage);
     const [currentUsers, setCurrentUsers] = useState<IUserInterface[]>([])
     const [deleteModel, setDeleteModel] = useState<boolean>(false)
-    const [selectedUser, setSelectedUser] = useState<number>(0)
+    const [selectedUser, setSelectedUser] = useState<number[]>([0])
     const [showAlert, setShowAlert] = useState(false);
+    const [userAction, setUserAction] = useState<string>("")
 
     useEffect(() => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
@@ -54,12 +55,22 @@ const Users = () => {
 
     const toggleAllCheckboxes = () => {
         const updatedUsers = users.map((user: any) => ({ ...user, isChecked: !allChecked }));
+        const userIds: any = updatedUsers.map((user: IUserInterface) => user.id)
+        setSelectedUser(userIds)
         setUsers(updatedUsers);
         setAllChecked(!allChecked);
-    };
+    }
 
     const toggleCheckbox = (id: number) => {
-        const updatedUsers = users.map((user: any) => user.id === id ? { ...user, isChecked: !user.isChecked } : user);
+        const updatedUsers: IUserInterface[] = users.map(user =>
+            user.id === id ? { ...user, isChecked: !user.isChecked } : user
+        );
+        const newSelectedUser = updatedUsers.find(user => user.id === id);
+        if (newSelectedUser && newSelectedUser.isChecked) {
+            setSelectedUser(prevSelected => [...prevSelected, id]);
+        } else {
+            setSelectedUser(prevSelected => prevSelected.filter(selectedId => selectedId !== id));
+        }
         setUsers(updatedUsers);
     };
 
@@ -133,14 +144,14 @@ const Users = () => {
                 user.position.toLowerCase().includes(value.toLowerCase()) ||
                 user.email.toLowerCase().includes(value.toLowerCase())
             );
-            setUsers(filteredUsers);
+            setCurrentUsers(filteredUsers);
         }
     }
 
     const deleteUserHandler = () => {
-        const newUser: IUserInterface[] = users.filter(user => user.id !== selectedUser);
+        const newUser: IUserInterface[] = users.filter(user => user.id !== undefined && !selectedUser.includes(user.id));
         setItem("users", JSON.stringify(newUser));
-        setUsers(newUser)
+        setUsers(newUser);
         setShowAlert(true);
         setDeleteModel(false);
         setTimeout(() => {
@@ -149,13 +160,21 @@ const Users = () => {
     }
 
     const selectUserToDelete = (id: number) => {
-        setSelectedUser(id)
+        setSelectedUser([id])
         setDeleteModel(true)
     }
 
     const resetDataHandler = () => {
         setUsers(usersWithCheckbox)
         setItem("users", JSON.stringify(usersWithCheckbox))
+    }
+
+    const actionHandler = () => {
+        switch (userAction) {
+            case "del":
+                deleteUserHandler()
+                break;
+        }
     }
 
 
@@ -206,12 +225,10 @@ const Users = () => {
                                 <h2 className='mb-3'>Action</h2>
                                 <div className='grid grid-cols-3 justify-center items-center'>
                                     <div>
-                                        <SelectInput className="mb-3" onChange={function (value: any) {
-                                            throw new Error('Function not implemented.')
-                                        }} title={'User Actions'} options={actionOptions} />
+                                        <SelectInput className="mb-3" onChange={(value) => setUserAction(value)} title={'User Actions'} options={actionOptions} />
                                     </div>
                                     <div>
-                                        <Button className=" bg-yellow-500 hover:bg-yellow-400 text-xs mt-5 ml-3"> Submit Action</Button>
+                                        <Button className=" bg-yellow-500 hover:bg-yellow-400 text-xs mt-5 ml-3" onClick={() => actionHandler()}> Submit Action</Button>
                                     </div>
                                 </div>
                             </div>
