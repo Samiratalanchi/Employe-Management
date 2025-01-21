@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 const DeleteAlert = ({ message }: { message: string }) => {
     return (

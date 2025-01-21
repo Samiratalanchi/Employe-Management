@@ -1,11 +1,11 @@
 import IInputInterfaces from "../../core/interfaces/IInputinterfaces"
 
-const InputForm: React.FC<IInputInterfaces> = ({ label, labelClassName, type, className, onChange }) => {
+const InputForm: React.FC<IInputInterfaces> = ({ label, labelClassName, type, className, onChange, value}) => {
     return (
         <div>
             <label
                 htmlFor={label}
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className={`block text-sm font-medium leading-6 text-gray-900 ${labelClassName}`}
             >
                 {label}
             </label>
@@ -13,6 +13,7 @@ const InputForm: React.FC<IInputInterfaces> = ({ label, labelClassName, type, cl
                 <input
                     id={label}
                     name={label}
+                    value={value}
                     type={type}
                     onChange={onChange}
                     autoComplete="current-password"

@@ -7,7 +7,7 @@ import UserTable from '../../components/users/userList/userList'
 import Pagination from "../../components/pagination/pagination";
 import UserJson from "../../constant/users.json"
 import { Link } from "react-router-dom";
-import { getItem, setItem } from "../../core/storage/storage";
+import { setItem } from "../../core/storage/storage";
 import Modal from "../../components/modal/modal";
 import DeleteAlert from "../../components/common/alert/deleteAlert";
 
@@ -40,15 +40,6 @@ const Users = () => {
         setCurrentUsers(users.slice(indexOfFirstItem, indexOfLastItem));
     }, [users, currentPage, itemsPerPage]);
 
-    useEffect(() => {
-        const userExist = getItem('users')
-        if (userExist) {
-            setUsers(JSON.parse(userExist))
-        }
-        else {
-            setUsers(usersWithCheckbox)
-        }
-    }, [])
 
     const toggleAllCheckboxes = () => {
         const updatedUsers = users.map((user: any) => ({ ...user, isChecked: !allChecked }));
