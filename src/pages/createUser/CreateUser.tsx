@@ -5,7 +5,8 @@ import { useState } from 'react'
 import { setItem } from '../../core/storage/storage'
 import { useUsers } from '../../context/User.context'
 import IUserInterface from '../../core/interfaces/IUserInterfaces'
-import DeleteAlert from '../../components/common/alert/deleteAlert'
+import Alert from '../../components/common/alert/alert'
+import Button from "../../components/common/button"
 
 const CreateUser = () => {
     const { users, setUsers } = useUsers();
@@ -64,7 +65,7 @@ const CreateUser = () => {
                             <p className="mt-1 text-sm leading-6 text-gray-600">
                                 This information will be displayed publicly so be careful what you share.
                             </p>
-                            {userCreated && <DeleteAlert message="User Created Successfully" />}
+                            {userCreated && <Alert message="User Created Successfully" />}
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="sm:col-span-2">
                                     <InputForm label='Username' type={'text'} value={userName} onChange={(e) => setUserName(e.target.value)} />
@@ -115,16 +116,15 @@ const CreateUser = () => {
                         </div>
                     </div>
                     <div className="mt-6 flex items-center justify-end gap-x-3">
-                        <button onClick={cancelProccess} type="button" className="rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">
+                        <Button onClick={cancelProccess} className="rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">
                             Cancel
-                        </button>
-                        <button
-                            type="submit"
+                        </Button>
+                        <Button
                             onClick={createUser}
                             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
                             Save
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </main>

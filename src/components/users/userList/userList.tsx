@@ -5,6 +5,7 @@ import tableCol from '../../../constant/tableCol'
 
 import UserTableProps from '../../../core/types/UserTable.type';
 import { Link } from 'react-router-dom';
+import Button from '../../common/button';
 
 const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onCheck, deleteUser}) => {
     return(
@@ -26,7 +27,7 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                     <th
                                     key={index}
                                     scope="col"
-                                    className="min-w-[8rem] px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                    className="min-w-[6rem] px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                     >
                                     {item}
                                     </th>
@@ -87,13 +88,12 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                         >
                                             Edit
                                         </Link>
-                                        <button
-                                            type="button"
+                                        <Button
                                             onClick={() => deleteUser(user.id)}
                                             className="rounded bg-red-600 px-2 py-1 text-md font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         >
                                             Delete
-                                        </button>
+                                        </Button>
                                         
                                     </td>
                                 </tr>

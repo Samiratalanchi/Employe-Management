@@ -5,8 +5,10 @@ import { setItem } from "../../core/storage/storage.ts";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "./loginForm/LoginForm.tsx";
 import Alert from "../common/alert/alert.tsx";
+import { useUsers } from "../../context/User.context.tsx";
 
 const LoginHolder = () => {
+    const { users } = useUsers()
     const [userName, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [success, setSuccess] = useState<boolean | null >(null);
