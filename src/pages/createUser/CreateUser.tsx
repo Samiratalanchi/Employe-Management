@@ -2,6 +2,7 @@ import InputForm from "../../components/common/InputForm"
 import SelectInput from "../../components/common/selectInput"
 import DashboardLayout from "../../components/layout/dashboardLayout"
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { setItem } from '../../core/storage/storage'
 import { useUsers } from '../../context/User.context'
 import IUserInterface from '../../core/interfaces/IUserInterfaces'
@@ -19,6 +20,7 @@ const CreateUser = () => {
     const [gender, setGender] = useState<boolean>(false)
     const [password, setPassword] = useState<string>("")
     const [userCreated, setUserCreated] = useState<boolean>(false)
+    const navigate = useNavigate()
 
     const createUser = () => {
         const user : IUserInterface = {
@@ -38,7 +40,7 @@ const CreateUser = () => {
         setUsers([...users, user])
         setItem("users", JSON.stringify(users))
         setTimeout(() => {
-            setUserCreated(false)
+            navigate('/users')
         }, 3000);
 
     }
@@ -52,6 +54,7 @@ const CreateUser = () => {
         setAge(0);
         setGender(false);
         setPassword("");
+        navigate('/users')
     }
 
     return (
@@ -106,8 +109,7 @@ const CreateUser = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="border-b border-gray-900/10 pt-12 mt-10">
-                        <h2 className="text-base font-semibold leading-7 text-gray-900">Change Password</h2>
+                        <div className="border-b border-gray-900/10 pb-12">
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div className="sm:col-span-2">
                                     <InputForm label='Password' type={'password'} onChange={(e) => setPassword(e.target.value)} />

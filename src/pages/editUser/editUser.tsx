@@ -61,6 +61,8 @@ const EditUser = () => {
         setAge(0);
         setGender(false);
         setPassword("");
+        navigate('/users')
+
     }
 
     useEffect(() => {
