@@ -4,7 +4,7 @@ import { useUsers } from '../../context/User.context'
 import { useParams, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../components/layout/dashboardLayout'
 import InputForm from '../../components/common/InputForm'
-import DeleteAlert from '../../components/common/alert/deleteAlert'
+import Alert from '../../components/common/alert/alert'
 import SelectInput from '../../components/common/selectInput'
 import IUserInterface from '../../core/interfaces/IUserInterfaces';
 
@@ -84,7 +84,7 @@ const EditUser = () => {
                             <p className="mt-1 text-sm leading-6 text-gray-600">
                                 This information will be displayed publicly so be careful what you share.
                             </p>
-                            {userUpdated && <DeleteAlert message="User Information Changed Successfully" />}
+                            {userUpdated && <Alert message="User Information Changed Successfully" />}
                             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                
                                 <div className="sm:col-span-2">

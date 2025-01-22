@@ -6,7 +6,7 @@ import tableCol from '../../../constant/tableCol'
 import UserTableProps from '../../../core/types/UserTable.type';
 import { Link } from 'react-router-dom';
 
-const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onCheck, deleteUser }) => {
+const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onCheck, deleteUser}) => {
     return(
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -94,6 +94,7 @@ const UserList: React.FC<UserTableProps> = ({ users, allChecked, onCheckAll, onC
                                         >
                                             Delete
                                         </button>
+                                        
                                     </td>
                                 </tr>
                             ))}

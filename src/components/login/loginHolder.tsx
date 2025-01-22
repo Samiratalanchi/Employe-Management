@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import users from "../../constant/users.json";
 import logo from "../../images/logo/logo.png"
 import { setItem } from "../../core/storage/storage.ts";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "./loginForm/LoginForm.tsx";
-import Alert from "../common/alert/loginAlert.tsx";
+import Alert from "../common/alert/alert.tsx";
 
 const LoginHolder = () => {
     const [userName, setUserName] = useState<string>("");

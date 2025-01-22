@@ -9,7 +9,7 @@ import UserJson from "../../constant/users.json"
 import { Link } from "react-router-dom";
 import { setItem } from "../../core/storage/storage";
 import Modal from "../../components/modal/modal";
-import DeleteAlert from "../../components/common/alert/deleteAlert";
+import Alert from "../../components/common/alert/alert";
 import SelectInput from "../../components/common/selectInput";
 import Button from "../../components/common/button";
 
@@ -174,8 +174,36 @@ const Users = () => {
             case "del":
                 deleteUserHandler()
                 break;
+            case "dea":
+                deactiveUsersHandler()
+                break
+            case "act":
+                activeUsersHandler()
+                break
         }
     }
+
+    const deactiveUsersHandler = () => {
+        const updatedUsers = users.map(user => {
+            if (selectedUser.includes(user.id!)) {
+                return { ...user, isActive: false };
+            }
+            return user;
+        });
+        setUsers(updatedUsers);
+        setItem("users", JSON.stringify(updatedUsers));
+    };
+    
+    const activeUsersHandler = () => {
+        const updatedUsers = users.map(user => {
+            if (selectedUser.includes(user.id!)) {
+                return { ...user, isActive: true };
+            }
+            return user;
+        });
+        setUsers(updatedUsers);
+        setItem("users", JSON.stringify(updatedUsers));
+    };
 
 
     return (
@@ -206,7 +234,7 @@ const Users = () => {
                         <div className="mt-8 flow-root">
                             <h2>Filter</h2>
                             {showAlert && (
-                                <DeleteAlert message="User deleted successfully" />
+                                <Alert message="User deleted successfully" />
                             )}
                             <SortingOptions
                                     sortByName={sortByName}
@@ -238,6 +266,9 @@ const Users = () => {
                                 onCheckAll={toggleAllCheckboxes}
                                 onCheck={toggleCheckbox}
                                 deleteUser={selectUserToDelete}
+                                deactiveUsersHandler={deactiveUsersHandler}
+                                activeUsersHandler={activeUsersHandler}
+
                             />
                             </div>
                             <Pagination

@@ -1,6 +1,6 @@
-import React from 'react'
 
-const LoginAlert = ({ message, error, title }: { message?: string, error?: boolean, title?: string }) => {
+
+const Alert = ({ message, error, title }: { message?: string, error?: boolean, title?: string }) => {
     return (
         error ? <div className="rounded-md bg-red-50 p-4">
             <div className="flex">
@@ -61,4 +61,4 @@ const LoginAlert = ({ message, error, title }: { message?: string, error?: boole
     )
 }
 
-export default LoginAlert
+export default Alert
